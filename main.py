@@ -1,6 +1,8 @@
-import os
 import sys
 import pygame
+
+from src.Constants.Assets import Scenarios
+from src.Helpers.AssetHelper import AssetHelper
 from src.Constants.Details import WIDTH, HEIGHT, CAPTION
 
 pygame.init()
@@ -8,16 +10,7 @@ clock = pygame.time.Clock()
 
 pygame.display.set_caption(CAPTION)
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-
-current_dir = os.path.dirname(__file__)
-image_path = os.path.join(current_dir, 'src', 'Assets', 'Scenarios', 'HomeScenario.png')
-
-try:
-  background_image = pygame.image.load(image_path).convert()
-  background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
-except pygame.error as e:
-  print(f"Error loading background image from {image_path}: {e}")
-  sys.exit()
+background = AssetHelper.load_image(Scenarios.HOME.value, (WIDTH, HEIGHT))
 
 while True:
   for event in pygame.event.get():
@@ -29,6 +22,6 @@ while True:
         pygame.quit()
         sys.exit()
 
-  screen.blit(background_image, (0, 0))
+  screen.blit(background, (0, 0))
   pygame.display.flip()
   clock.tick(60)
