@@ -1,14 +1,13 @@
 import os
 import sys
 import pygame
-from src.Core.Constants import WIDTH, HEIGHT
+from src.Core.Constants import WIDTH, HEIGHT, CAPTION
 
 pygame.init()
-
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Hospital Rush")
-
 clock = pygame.time.Clock()
+
+pygame.display.set_caption(CAPTION)
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
 current_dir = os.path.dirname(__file__)
 image_path = os.path.join(current_dir, 'src', 'Assets', 'Scenarios', 'HomeScenario.png')
@@ -31,6 +30,5 @@ while True:
         sys.exit()
 
   screen.blit(background_image, (0, 0))
-  
   pygame.display.flip()
   clock.tick(60)
