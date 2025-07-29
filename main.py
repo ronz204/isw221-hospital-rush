@@ -1,30 +1,26 @@
-import pygame
+import os
 import sys
+import pygame
+from src.Core.Constants import WIDTH, HEIGHT
 
-# Initialize Pygame
 pygame.init()
 
-# Screen settings
-WIDTH, HEIGHT = 800, 600
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Hospital Rush")
 
-# Colors
-WHITE = (255, 255, 255)
-RED = (255, 0, 0)
-
-# Square position and size
-square_size = 50
-x = WIDTH // 2 - square_size // 2
-y = HEIGHT // 2 - square_size // 2
-speed = 5
-
-# Clock for controlling FPS
 clock = pygame.time.Clock()
 
-# Main game loop
+current_dir = os.path.dirname(__file__)
+image_path = os.path.join(current_dir, 'src', 'Assets', 'Scenarios', 'HomeScenario.png')
+
+try:
+  background_image = pygame.image.load(image_path).convert()
+  background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
+except pygame.error as e:
+  print(f"Error loading background image from {image_path}: {e}")
+  sys.exit()
+
 while True:
-  # Event handling
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
       pygame.quit()
@@ -34,29 +30,7 @@ while True:
         pygame.quit()
         sys.exit()
 
-  # Get pressed keys
-  keys = pygame.key.get_pressed()
-  if keys[pygame.K_LEFT]:
-    x -= speed
-  if keys[pygame.K_RIGHT]:
-    x += speed
-  if keys[pygame.K_UP]:
-    y -= speed
-  if keys[pygame.K_DOWN]:
-    y += speed
-
-  # Keep square within screen bounds
-  x = max(0, min(x, WIDTH - square_size))
-  y = max(0, min(y, HEIGHT - square_size))
-
-  # Fill background
-  screen.fill(WHITE)
-
-  # Draw the square
-  pygame.draw.rect(screen, RED, (x, y, square_size, square_size))
-
-  # Update the display
+  screen.blit(background_image, (0, 0))
+  
   pygame.display.flip()
-
-  # Limit to 60 FPS
   clock.tick(60)
