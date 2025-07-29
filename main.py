@@ -1,7 +1,7 @@
 import os
 import sys
 import pygame
-from src.Core.Constants import WIDTH, HEIGHT, CAPTION
+from src.Constants.Details import WIDTH, HEIGHT, CAPTION
 
 pygame.init()
 clock = pygame.time.Clock()
