@@ -1,6 +1,3 @@
-from src.Constants.Assets import Scenario
-from src.Stores.ScenarioStore import ScenarioStore
-
 from src.Components.Scenarios.SceneManager import SceneManager
 from src.Components.Scenarios.HistoryScenario import HistoryScenario
 
