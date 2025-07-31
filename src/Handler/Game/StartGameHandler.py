@@ -3,4 +3,4 @@ from src.Components.Scenarios.RoomScenario import RoomScenario
 
 class StartGameHandler:
   def execute(self) -> None:
-    SceneManager.switch(RoomScenario())
+    SceneManager.switch("room")

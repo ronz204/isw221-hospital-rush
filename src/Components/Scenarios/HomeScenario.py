@@ -14,7 +14,7 @@ class HomeScenario(BaseScenario):
   def listen(self, event) -> None:
     if (event.type == pygame.KEYDOWN):
       if (event.key == pygame.K_RETURN):
-        SceneManager.switch(scenario=MenuScenario())
+        SceneManager.switch("menu")
 
   def draw(self, screen) -> None:
     screen.blit(AssetHelper.load_image(Scenario.HOME.value, (WIDTH, HEIGHT)), (0, 0))

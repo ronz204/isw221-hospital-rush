@@ -1,13 +1,15 @@
+from typing import Dict
 from pygame import Surface
 from pygame.event import Event
 from src.Components.Scenarios.BaseScenario import BaseScenario
 
 class SceneManager:
   CURRENT: BaseScenario
+  SCENARIOS: Dict[str, BaseScenario] = {}
 
   @staticmethod
-  def switch(scenario: BaseScenario):
-    SceneManager.CURRENT = scenario
+  def switch(scenario: str):
+    SceneManager.CURRENT = SceneManager.SCENARIOS[scenario]
 
   @staticmethod
   def listen(event: Event):

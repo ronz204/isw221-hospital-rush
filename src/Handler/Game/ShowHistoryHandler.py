@@ -3,4 +3,4 @@ from src.Components.Scenarios.HistoryScenario import HistoryScenario
 
 class ShowHistoryHandler:
   def execute(self) -> None:
-    SceneManager.switch(HistoryScenario())
+    SceneManager.switch("history")
