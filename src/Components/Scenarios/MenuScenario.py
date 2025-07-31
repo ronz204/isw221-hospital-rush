@@ -15,9 +15,9 @@ class MenuScenario(BaseScenario):
     self.buttons = Group()
 
     self.buttons.add(
-      ExitButton(Coord(200, 200)),
-      StartButton(Coord(200, 300)),
-      HistoryButton(Coord(200, 400),))
+      ExitButton(Coord(150, 250)),
+      StartButton(Coord(400, 250)),
+      HistoryButton(Coord(650, 250),))
 
   def listen(self, event):
     if (event.type == pygame.MOUSEBUTTONDOWN):
