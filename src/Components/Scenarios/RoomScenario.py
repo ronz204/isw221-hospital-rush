@@ -1,9 +1,9 @@
 from src.Constants.Assets import Scenario
-from src.Constants.Details import WIDTH, HEIGHT
-from src.Helpers.AssetHelper import AssetHelper
 from src.Components.Scenarios.BaseScenario import BaseScenario
 
 class RoomScenario(BaseScenario):
+  BACKGROUND = Scenario.ROOM
+
   def __init__(self):
     super().__init__()
 
@@ -11,4 +11,4 @@ class RoomScenario(BaseScenario):
     pass
 
   def draw(self, screen) -> None:
-    screen.blit(AssetHelper.load_image(Scenario.ROOM.value, (WIDTH, HEIGHT)), (0, 0))
+    super().draw(screen)

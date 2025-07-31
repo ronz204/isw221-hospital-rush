@@ -1,13 +1,11 @@
 import pygame
 from src.Constants.Assets import Scenario
-from src.Constants.Details import WIDTH, HEIGHT
-from src.Helpers.AssetHelper import AssetHelper
 from src.Components.Scenarios.BaseScenario import BaseScenario
-
 from src.Components.Scenarios.SceneManager import SceneManager
-from src.Components.Scenarios.MenuScenario import MenuScenario
 
 class HomeScenario(BaseScenario):
+  BACKGROUND = Scenario.HOME
+
   def __init__(self):
     super().__init__()
 
@@ -17,4 +15,4 @@ class HomeScenario(BaseScenario):
         SceneManager.switch("menu")
 
   def draw(self, screen) -> None:
-    screen.blit(AssetHelper.load_image(Scenario.HOME.value, (WIDTH, HEIGHT)), (0, 0))
+    super().draw(screen)

@@ -2,14 +2,14 @@ import pygame
 from pygame.sprite import Group
 from src.Models.Coord import Coord
 from src.Constants.Assets import Scenario
-from src.Constants.Details import WIDTH, HEIGHT
-from src.Helpers.AssetHelper import AssetHelper
 from src.Components.Buttons.ExitButton import ExitButton
 from src.Components.Buttons.StartButton import StartButton
 from src.Components.Buttons.HistoryButton import HistoryButton
 from src.Components.Scenarios.BaseScenario import BaseScenario
 
 class MenuScenario(BaseScenario):
+  BACKGROUND = Scenario.MENU
+
   def __init__(self):
     super().__init__()
     self.buttons = Group()
@@ -27,5 +27,5 @@ class MenuScenario(BaseScenario):
           button.on_event(event)
 
   def draw(self, screen) -> None:
-    screen.blit(AssetHelper.load_image(Scenario.MENU.value, (WIDTH, HEIGHT)), (0, 0))
+    super().draw(screen)
     self.buttons.draw(screen)
