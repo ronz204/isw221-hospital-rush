@@ -17,7 +17,10 @@ class RoomScenario(BaseScenario):
       DoctorCharacter(Coord(30, 30), Character.DOCTOR1),
       DoctorCharacter(Coord(30, 120), Character.DOCTOR2),
       DoctorCharacter(Coord(30, 210), Character.DOCTOR3),
-      DoctorCharacter(Coord(30, 300), Character.DOCTOR4),)
+      DoctorCharacter(Coord(30, 300), Character.DOCTOR4),
+      
+      TriageCharacter(Coord(120, 30), Character.TRIAGE1),
+      TriageCharacter(Coord(120, 120), Character.TRIAGE2),)
 
   def listen(self, event) -> None:
     pass
