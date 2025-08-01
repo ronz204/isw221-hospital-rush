@@ -17,3 +17,9 @@ class AssetHelper:
     if scale:
       image = pygame.transform.scale(image, scale)
     return image
+  
+  @staticmethod
+  def load_font(path: str, size: int) -> pygame.Surface:
+    asset_path = AssetHelper.get_asset_path(path)
+    font = pygame.font.Font(asset_path, size)
+    return font.render("someting", True, (255, 215, 0))

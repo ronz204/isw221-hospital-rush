@@ -26,3 +26,6 @@ class Character(Enum):
   TRIAGE1 = "Sprites/Triages/Triage1.png"
   TRIAGE2 = "Sprites/Triages/Triage2.png"
   TRIAGE3 = "Sprites/Triages/Triage3.png"
+
+class Font(Enum):
+  KARMATIC = "Fonts/KarmaticArcade.ttf"
