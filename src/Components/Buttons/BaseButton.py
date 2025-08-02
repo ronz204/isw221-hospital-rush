@@ -5,7 +5,7 @@ from src.Constants.Assets import Button
 from src.Components.Component import Component
 from src.Helpers.AssetHelper import AssetHelper
 
-class Base(Component):
+class BaseButton(Component):
   def __init__(self, coords: Coord, size: Size, image: Button):
     super().__init__(coords=coords, size=size)
     self.image = AssetHelper.load_image(image.value, size.as_tuple())
