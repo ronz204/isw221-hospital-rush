@@ -1,6 +1,8 @@
 from pygame.sprite import Group
+from pygame import mouse, Surface
 from src.Models.Coord import Coord
 from src.Helpers.AssetHelper import AssetHelper
+from src.Components.Equipment.Stretcher import Stretcher
 from src.Constants.Assets import Scenario, Character, Font
 from src.Components.Scenarios.BaseScenario import BaseScenario
 from src.Components.Characters.DoctorCharacter import DoctorCharacter
@@ -15,7 +17,35 @@ class RoomScenario(BaseScenario):
     self.stretchers = Group()
     self.characters = Group()
 
-    """ self.characters.add(
+    self.stretchers.add(Stretcher(Coord(160, 300)))
+
+  def listen(self, event) -> None:
+    for stretcher in self.stretchers:
+      stretcher.listen(event)
+
+  def draw(self, screen) -> None:
+    super().draw(screen)
+    self.stretchers.draw(screen)
+    self.characters.draw(screen)
+
+    for stretcher in self.stretchers:
+      stretcher.draw(screen)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+""" self.characters.add(
       DoctorCharacter(Coord(430, 160), Character.DOCTOR1),
       DoctorCharacter(Coord(500, 180), Character.DOCTOR2),
       
@@ -26,11 +56,3 @@ class RoomScenario(BaseScenario):
       PatientCharacter(Coord(560, 380), Character.PATIENT2),
       PatientCharacter(Coord(585, 300), Character.PATIENT3),
       PatientCharacter(Coord(610, 350), Character.PATIENT4),) """
-
-  def listen(self, event) -> None:
-    pass
-
-  def draw(self, screen) -> None:
-    super().draw(screen)
-    self.characters.draw(screen)
-    self.stretchers.draw(screen)
