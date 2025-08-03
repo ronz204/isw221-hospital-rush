@@ -12,6 +12,9 @@ class Button(Enum):
   START = "Buttons/StartButton.png"
   HISTORY = "Buttons/HistoryButton.png"
 
+class Equipment(Enum):
+  STRETCHER = "Sprites/Equipment/Stretcher.png"
+
 class Character(Enum):
   DOCTOR1 = "Sprites/Doctors/Doctor1.png"
   DOCTOR2 = "Sprites/Doctors/Doctor2.png"
