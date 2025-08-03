@@ -10,7 +10,7 @@ class Component(Sprite):
     self.size: Size = size
     self.image: Surface = None
     self.coords: Coord = coords
-    self.rect: Rect = Rect(self.coords.x, self.coords.y, self.size.width, self.size.height)
+    self.rect = Rect(self.coords.x, self.coords.y, self.size.width, self.size.height)
   
   def listen(self, event: Event) -> None:
     raise NotImplementedError("error")
