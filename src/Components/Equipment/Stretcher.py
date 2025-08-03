@@ -1,5 +1,4 @@
 from typing import List
-from pygame import Surface, draw
 from src.Models.Size import Size
 from src.Models.Coord import Coord
 from src.Constants.Assets import Equipment
