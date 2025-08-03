@@ -1,7 +1,9 @@
+from typing import List
 from pygame import Surface, draw
 from src.Models.Size import Size
 from src.Models.Coord import Coord
 from src.Components.DragDrop.DropZone import DropZone
+from src.Components.DragDrop.Draggable import Draggable
 from src.Components.Equipment.BaseEquipment import BaseEquipment
 
 class Stretcher(BaseEquipment):
@@ -16,8 +18,9 @@ class Stretcher(BaseEquipment):
 
     self.dropzone = DropZone(self.rect)
 
-  def listen(self, event) -> None:
-    pass
+  def listen(self, event, draggables: List[Draggable]) -> None:
+    self.dropzone.listen(event, draggables)
+    self.dropzone.update_slots()
 
   def draw(self, screen) -> None:
     self.dropzone.parent_rect = self.rect
