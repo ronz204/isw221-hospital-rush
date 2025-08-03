@@ -17,7 +17,9 @@ class RoomScenario(BaseScenario):
     self.stretchers = Group()
     self.characters = Group()
 
-    self.stretchers.add(Stretcher(Coord(160, 300)))
+    self.stretchers.add(
+      Stretcher(Coord(290, 190)),
+      Stretcher(Coord(110, 300)),)
 
   def listen(self, event) -> None:
     for stretcher in self.stretchers:
