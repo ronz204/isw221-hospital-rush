@@ -29,5 +29,5 @@ class PatientCharacter(BaseCharacter, Draggable):
 
   def draw(self, screen) -> None:
     if self.hovered:
-      severity_surf = AssetHelper.load_font(Font.KARMATIC.value, 18, f"Severidad {self.severity.value}")
-      screen.blit(severity_surf, (10, 30))
+      severity_surf = AssetHelper.load_font(Font.KARMATIC.value, 18, f"Severidad {self.severity.value}", (246,157,57))
+      screen.blit(severity_surf, (10, 65))

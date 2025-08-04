@@ -19,7 +19,7 @@ class AssetHelper:
     return image
   
   @staticmethod
-  def load_font(path: str, size: int, text: str) -> pygame.Surface:
+  def load_font(path: str, size: int, text: str, color: Tuple[int, int, int]) -> pygame.Surface:
     asset_path = AssetHelper.get_asset_path(path)
     font = pygame.font.Font(asset_path, size)
-    return font.render(text, True, (30,23,60,255))
+    return font.render(text, True, color)

@@ -22,5 +22,5 @@ class DoctorCharacter(BaseCharacter, Draggable):
 
   def draw(self, screen) -> None:
     if self.hovered:
-      fatigue_surf = AssetHelper.load_font(Font.KARMATIC.value, 18, f"Fatiga {self.fatigue}")
-      screen.blit(fatigue_surf, (10, 10))
+      fatigue_surf = AssetHelper.load_font(Font.KARMATIC.value, 18, f"Fatiga {self.fatigue}", (59,61,96))
+      screen.blit(fatigue_surf, (10, 35))

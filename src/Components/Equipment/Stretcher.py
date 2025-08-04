@@ -35,8 +35,8 @@ class Stretcher(BaseEquipment):
 
   def draw(self, screen) -> None:
     if self.hovered:
-      severity_surf = AssetHelper.load_font(Font.KARMATIC.value, 18, f"Usos {self.uses}")
-      screen.blit(severity_surf, (10, 50))
+      severity_surf = AssetHelper.load_font(Font.KARMATIC.value, 18, f"Usos {self.uses}", (200,86,75))
+      screen.blit(severity_surf, (10, 10))
 
     for zone in self.dropzones:
       zone.draw(screen)
