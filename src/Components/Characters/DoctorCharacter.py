@@ -1,8 +1,7 @@
 from pygame import mouse
 from src.Models.Size import Size
 from src.Models.Coord import Coord
-from src.Constants.Assets import Font
-from src.Constants.Assets import Character
+from src.Constants.Assets import Character, Font
 from src.Helpers.AssetHelper import AssetHelper
 from src.Components.DragDrop.Draggable import Draggable
 from src.Components.Characters.BaseCharacter import BaseCharacter
