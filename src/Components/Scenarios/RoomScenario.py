@@ -40,5 +40,8 @@ class RoomScenario(BaseScenario):
     self.stretchers.draw(screen)
     self.characters.draw(screen)
 
+    for character in self.characters:
+      character.draw(screen)
+
     for stretcher in self.stretchers:
       stretcher.draw(screen)
