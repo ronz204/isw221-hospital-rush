@@ -1,5 +1,8 @@
 from enum import Enum
 
+class Icon(Enum):
+  GAME = "Icons/HospitalRushIcon.png"
+
 class Scenario(Enum):
   HOME = "Scenarios/HomeScenario.png"
   ROOM = "Scenarios/RoomScenario.png"
