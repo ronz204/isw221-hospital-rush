@@ -12,8 +12,6 @@ class Component(Sprite):
     self.coords: Coord = coords
     self.rect = Rect(self.coords.x, self.coords.y, self.size.width, self.size.height)
   
-  def listen(self, event: Event) -> None:
-    raise NotImplementedError("error")
+  def listen(self, event: Event) -> None: pass
   
-  def draw(self, screen: Surface) -> None:
-    raise NotImplementedError("error")
+  def draw(self, screen: Surface) -> None: pass
