@@ -20,22 +20,24 @@ class DropZone(Component):
   def is_inside(self, component: Component) -> bool:
     return component.rect.colliderect(self.rect)
   
+  def center_drag(self, component: Component):
+    component.rect.center = self.rect.center
+  
   def update(self) -> None:
     if (self.object_inside):
       if not self.is_inside(self.object_inside):
         self.object_inside = None
       else:
-        self.object_inside.rect.topleft = self.position
+        self.center_drag(self.object_inside)
 
   def listen(self, event: Event, draggables: List[Draggable]) -> None:
     if (event.type == pygame.MOUSEBUTTONUP and event.button == 1 and self.object_inside is None):
       for drag in draggables:
         if not drag.is_dragging and self.is_inside(drag):
           self.object_inside = drag
-          self.object_inside.rect.topleft = self.position
+          self.center_drag(self.object_inside)
           break
 
   def draw(self, screen: Surface) -> None:
-    color = (100, 200, 100) if self.object_inside else (255, 255, 255)
-    draw.rect(screen, color, self.rect, border_radius=6)
-    draw.rect(screen, (120, 120, 120), self.rect, width=3, border_radius=6)
+    border_color = (100, 200, 100) if self.object_inside else (120, 120, 120)
+    draw.rect(screen, border_color, self.rect, width=3, border_radius=6)
