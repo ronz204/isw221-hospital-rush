@@ -6,6 +6,7 @@ from src.Helpers.AssetHelper import AssetHelper
 from src.Constants.Assets import Equipment, Font
 from src.Components.DragDrop.DropZone import DropZone
 from src.Components.DragDrop.Draggable import Draggable
+from src.Components.DragDrop.Interaction import Interaction
 from src.Components.Equipment.BaseEquipment import BaseEquipment
 from src.Components.Characters.DoctorCharacter import DoctorCharacter
 from src.Components.Characters.PatientCharacter import PatientCharacter
@@ -21,10 +22,11 @@ class Stretcher(BaseEquipment):
     doctor_dropzone_coords = Coord(self.rect.x + 1, self.rect.y + (self.rect.height - 38) // 2)
     stretcher_dropzone_coords = Coord(self.rect.x + (self.rect.width - 38) // 2, self.rect.y + (self.rect.height - 38) // 2)
 
-    doctor_zone = DropZone(coords=doctor_dropzone_coords, accepted_type=DoctorCharacter)
-    patient_zone = DropZone(coords=stretcher_dropzone_coords, accepted_type=PatientCharacter)
+    self.doctor_zone = DropZone(coords=doctor_dropzone_coords, accepted_type=DoctorCharacter)
+    self.patient_zone = DropZone(coords=stretcher_dropzone_coords, accepted_type=PatientCharacter)
 
-    self.dropzones = [doctor_zone, patient_zone]
+    self.dropzones = [self.doctor_zone, self.patient_zone]
+    self.interaction = Interaction(self.doctor_zone, self.patient_zone)
 
   def listen(self, event, draggables: List[Draggable]) -> None:
     mouse_pos = mouse.get_pos()
@@ -33,6 +35,8 @@ class Stretcher(BaseEquipment):
     for zone in self.dropzones:
       zone.listen(event, draggables)
       zone.update()
+
+    self.interaction.validate_interaction()
 
   def draw(self, screen) -> None:
     if self.hovered:

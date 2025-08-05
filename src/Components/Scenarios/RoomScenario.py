@@ -1,9 +1,8 @@
 from pygame.sprite import Group
-from pygame import mouse, Surface
 from src.Models.Coord import Coord
-from src.Helpers.AssetHelper import AssetHelper
+from src.Skills.SkillManager import SkillManager
+from src.Constants.Assets import Scenario, Character
 from src.Components.Equipment.Stretcher import Stretcher
-from src.Constants.Assets import Scenario, Character, Font
 from src.Components.Scenarios.BaseScenario import BaseScenario
 from src.Components.Characters.DoctorCharacter import DoctorCharacter
 from src.Components.Characters.TriageCharacter import TriageCharacter
@@ -17,12 +16,16 @@ class RoomScenario(BaseScenario):
     self.stretchers = Group()
     self.characters = Group()
 
+    fundamentals = SkillManager.get_skill("Medical Fundamentals")
+    advanced_diagnosis = SkillManager.get_skill("Advanced Diagnosis")
+    surgical_precision = SkillManager.get_skill("Surgical Precision")
+
     self.characters.add(
-      DoctorCharacter(Coord(490, 160), Character.DOCTOR1),
-      DoctorCharacter(Coord(540, 180), Character.DOCTOR2),
-      
-      PatientCharacter(Coord(530, 330), Character.PATIENT1),
-      PatientCharacter(Coord(560, 380), Character.PATIENT2),
+      DoctorCharacter(Coord(490, 160), Character.DOCTOR1, [fundamentals, advanced_diagnosis]),
+      DoctorCharacter(Coord(540, 180), Character.DOCTOR2, [fundamentals, surgical_precision]),
+
+      PatientCharacter(Coord(530, 330), Character.PATIENT1, [fundamentals, advanced_diagnosis]),
+      PatientCharacter(Coord(560, 380), Character.PATIENT2, [fundamentals, surgical_precision]),
 
       TriageCharacter(Coord(350, 400), Character.TRIAGE1),)
 
