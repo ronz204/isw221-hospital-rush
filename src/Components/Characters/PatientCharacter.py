@@ -1,8 +1,10 @@
 import random
 from enum import Enum
+from typing import List
 from pygame import mouse
 from src.Models.Size import Size
 from src.Models.Coord import Coord
+from src.Skills.SkillBase import Skill
 from src.Helpers.AssetHelper import AssetHelper
 from src.Constants.Assets import Character, Font
 from src.Components.DragDrop.Draggable import Draggable
@@ -14,11 +16,12 @@ class PatientSeverity(Enum):
   HIGH = "Alta"
 
 class PatientCharacter(BaseCharacter, Draggable):
-  def __init__(self, coords: Coord, image: Character):
+  def __init__(self, coords: Coord, image: Character, required_skills: List[Skill]):
     super().__init__(coords=coords, size=Size(45, 55), image=image)
     Draggable.__init__(self)
 
     self.hovered: bool = False
+    self.required_skills: List[Skill] = required_skills
     self.severity = random.choice(list(PatientSeverity))
 
   def listen(self, event) -> None:
