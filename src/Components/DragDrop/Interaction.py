@@ -1,5 +1,7 @@
-from pygame import time
 from typing import Dict
+from pygame import time, Surface
+from src.Constants.Assets import Font
+from src.Helpers.AssetHelper import AssetHelper
 from src.Components.DragDrop.DropZone import DropZone
 from src.Components.Characters.DoctorCharacter import DoctorCharacter
 from src.Components.Characters.PatientCharacter import PatientCharacter
@@ -56,3 +58,9 @@ class Interaction:
       self.current_doctor = None
       self.current_patient = None
       self.treatment_in_progress = False
+
+  def draw_treatment_indicator(self, screen: Surface, stretcher) -> None:
+    if not self.treatment_in_progress: return
+    remaining_time = max(0, (self.treatment_end_time - time.get_ticks()) // 1000)
+    indicator_surf = AssetHelper.load_font(Font.KARMATIC.value, 12, f"Tratamiento {remaining_time}s", (0, 255, 0))
+    screen.blit(indicator_surf, (stretcher.coords.x, stretcher.coords.y - 20))

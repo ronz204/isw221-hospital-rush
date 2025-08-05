@@ -40,6 +40,8 @@ class Stretcher(BaseEquipment):
     self.interaction.update_treatment(self, characters)
 
   def draw(self, screen) -> None:
+    self.interaction.draw_treatment_indicator(screen, self)
+
     if self.hovered:
       severity_surf = AssetHelper.load_font(Font.KARMATIC.value, 18, f"Usos {self.uses}", (200,86,75))
       screen.blit(severity_surf, (10, 10))
