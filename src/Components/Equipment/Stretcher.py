@@ -28,7 +28,7 @@ class Stretcher(BaseEquipment):
     self.dropzones = [self.doctor_zone, self.patient_zone]
     self.interaction = Interaction(self.doctor_zone, self.patient_zone)
 
-  def listen(self, event, draggables: List[Draggable]) -> None:
+  def listen(self, event, characters, draggables: List[Draggable]) -> None:
     mouse_pos = mouse.get_pos()
     self.hovered = self.rect.collidepoint(mouse_pos)
 
@@ -37,6 +37,7 @@ class Stretcher(BaseEquipment):
       zone.update()
 
     self.interaction.validate_interaction()
+    self.interaction.update_treatment(self, characters)
 
   def draw(self, screen) -> None:
     if self.hovered:

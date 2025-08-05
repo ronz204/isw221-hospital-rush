@@ -37,7 +37,7 @@ class RoomScenario(BaseScenario):
       character.listen(event)
 
     for stretcher in self.stretchers:
-      stretcher.listen(event, list(self.characters.sprites()))
+      stretcher.listen(event, self.characters, list(self.characters.sprites()))
 
   def draw(self, screen) -> None:
     super().draw(screen)
