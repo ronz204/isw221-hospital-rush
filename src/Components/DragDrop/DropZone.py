@@ -51,10 +51,11 @@ class DropZone(Component):
   def listen(self, event: Event, draggables: List[Draggable]) -> None:
     if (event.type == pygame.MOUSEBUTTONUP and event.button == 1 and self.object_inside is None):
       for drag in draggables:
-        if not drag.is_dragging and self.is_inside(drag):
-          self.object_inside = drag
-          self.center_drag(self.object_inside)
-          break
+        if isinstance(drag, Draggable):
+          if not drag.is_dragging and self.is_inside(drag):
+            self.object_inside = drag
+            self.center_drag(self.object_inside)
+            break
 
   def draw(self, screen: Surface) -> None:
     border_color = self.get_border_color()
