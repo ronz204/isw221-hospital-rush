@@ -1,3 +1,4 @@
+import pygame
 from typing import List
 from pygame import mouse
 from src.Models.Size import Size
@@ -16,11 +17,18 @@ class DoctorCharacter(BaseCharacter, Draggable):
     self.fatigue: int = 0
     self.hovered: bool = False
     self.skills: List[Skill] = skills
+    self.initial_coords: Coord = coords
 
   def can_treat(self, patient_skills: List[Skill]) -> bool:
     return all(skill in self.skills for skill in patient_skills)
+  
+  def reset_position(self) -> None:
+    self.coords = self.initial_coords
+    self.rect.topleft = (self.coords.x, self.coords.y)
 
   def listen(self, event) -> None:
+    if event.type == pygame.MOUSEBUTTONDOWN and self.rect.collidepoint(mouse.get_pos()):
+      self.initial_coords = self.coords
     self.listen_drag(event)
 
     mouse_pos = mouse.get_pos()
