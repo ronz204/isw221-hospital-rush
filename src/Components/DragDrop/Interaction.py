@@ -43,7 +43,7 @@ class Interaction:
   
   def update_treatment(self, stretcher, characters) -> None:
     if self.treatment_in_progress and time.get_ticks() >= self.treatment_end_time:
-      self.current_doctor.fatigue += 1
+      self.current_doctor.increase_fatigue()
       stretcher.uses += 1
 
       self.current_doctor.reset_position()

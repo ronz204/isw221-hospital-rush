@@ -1,4 +1,5 @@
 import pygame
+from pygame import time
 from typing import List
 from pygame import mouse
 from src.Models.Size import Size
@@ -19,6 +20,10 @@ class DoctorCharacter(BaseCharacter, Draggable):
     self.skills: List[Skill] = skills
     self.initial_coords: Coord = coords
 
+    self.in_recovery: bool = False
+    self.recovery_start_time: int = 0
+    self.recovery_duration: int = 3000
+
   def can_treat(self, patient_skills: List[Skill]) -> bool:
     return all(skill in self.skills for skill in patient_skills)
   
@@ -27,14 +32,39 @@ class DoctorCharacter(BaseCharacter, Draggable):
     self.rect.topleft = (self.coords.x, self.coords.y)
 
   def listen(self, event) -> None:
+    self.update_recovery()
+    if self.in_recovery: return
+
     if event.type == pygame.MOUSEBUTTONDOWN and self.rect.collidepoint(mouse.get_pos()):
       self.initial_coords = self.coords
     self.listen_drag(event)
 
     mouse_pos = mouse.get_pos()
     self.hovered = self.rect.collidepoint(mouse_pos)
+    self.update_recovery()
+
+  def update_recovery(self) -> None:
+    if self.in_recovery:
+      elapsed_time = time.get_ticks() - self.recovery_start_time
+      if elapsed_time >= self.recovery_duration:
+        self.in_recovery = False
+        self.fatigue = 0
+  
+  def start_recovery(self) -> None:
+    self.in_recovery = True
+    self.recovery_start_time = time.get_ticks()
 
   def draw(self, screen) -> None:
     if self.hovered:
       fatigue_surf = AssetHelper.load_font(Font.KARMATIC.value, 18, f"Fatiga {self.fatigue}", (59,61,96))
       screen.blit(fatigue_surf, (10, 35))
+
+    if self.in_recovery:
+      remaining_time = max(0, (self.recovery_duration - (time.get_ticks() - self.recovery_start_time)) // 1000)
+      recovery_surf = AssetHelper.load_font(Font.KARMATIC.value, 12, f"Recuperación {remaining_time}s", (255, 0, 0))
+      screen.blit(recovery_surf, (self.coords.x - 50, self.coords.y - 20))
+
+  def increase_fatigue(self) -> None:
+    self.fatigue += 1
+    if self.fatigue == 2:
+      self.start_recovery()
