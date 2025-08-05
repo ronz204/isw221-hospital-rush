@@ -21,9 +21,10 @@ class Stretcher(BaseEquipment):
     doctor_dropzone_coords = Coord(self.rect.x + 1, self.rect.y + (self.rect.height - 38) // 2)
     stretcher_dropzone_coords = Coord(self.rect.x + (self.rect.width - 38) // 2, self.rect.y + (self.rect.height - 38) // 2)
 
-    self.dropzones = [
-      DropZone(coords=doctor_dropzone_coords, accepted_type=DoctorCharacter),
-      DropZone(coords=stretcher_dropzone_coords, accepted_type=PatientCharacter),]
+    doctor_zone = DropZone(coords=doctor_dropzone_coords, accepted_type=DoctorCharacter)
+    patient_zone = DropZone(coords=stretcher_dropzone_coords, accepted_type=PatientCharacter)
+
+    self.dropzones = [doctor_zone, patient_zone]
 
   def listen(self, event, draggables: List[Draggable]) -> None:
     mouse_pos = mouse.get_pos()

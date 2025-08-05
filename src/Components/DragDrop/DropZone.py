@@ -19,15 +19,11 @@ class DropZone(Component):
     self.object_inside: Component = None
     self.accepted_type: Draggable = accepted_type
 
-  @property
-  def position(self):
-    return (self.rect.x, self.rect.y)
+  def center_drag(self, component: Component):
+    component.rect.center = self.rect.center
 
   def is_inside(self, component: Component) -> bool:
     return component.rect.colliderect(self.rect)
-  
-  def center_drag(self, component: Component):
-    component.rect.center = self.rect.center
 
   def is_valid_object(self, draggable: Draggable) -> bool:
     if self.accepted_type is None: return True
