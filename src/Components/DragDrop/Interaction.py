@@ -13,9 +13,6 @@ class Interaction:
       patient = self.patient_zone.object_inside
       
       if isinstance(doctor, DoctorCharacter) and isinstance(patient, PatientCharacter):
-        if doctor.can_treat(patient.required_skills):
-          print(f"El doctor puede tratar al paciente.")
-        else:
+        if not doctor.can_treat(patient.required_skills):
           doctor.reset_position()
           self.doctor_zone.object_inside = None
-          print(f"El doctor NO puede tratar al paciente.")
