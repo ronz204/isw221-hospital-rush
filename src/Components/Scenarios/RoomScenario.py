@@ -22,7 +22,9 @@ class RoomScenario(BaseScenario):
       DoctorCharacter(Coord(540, 180), Character.DOCTOR2),
       
       PatientCharacter(Coord(530, 330), Character.PATIENT1),
-      PatientCharacter(Coord(560, 380), Character.PATIENT2),)
+      PatientCharacter(Coord(560, 380), Character.PATIENT2),
+
+      TriageCharacter(Coord(350, 400), Character.TRIAGE1),)
 
     self.stretchers.add(
       Stretcher(Coord(290, 190)),
