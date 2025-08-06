@@ -71,8 +71,11 @@ class DoctorCharacter(BaseCharacter, Draggable):
   def draw_info_box(self, screen) -> None:
     box_width = 270
     box_height = 90 + 22 * len(self.skills)
-    box_x = 20
-    box_y = 20
+    margin_right = 20
+    margin_top = 60
+
+    box_x = screen.get_width() - box_width - margin_right
+    box_y = margin_top
 
     bg_color = (245, 245, 255)
     border_color = (59, 61, 96)
@@ -94,5 +97,5 @@ class DoctorCharacter(BaseCharacter, Draggable):
     skills_title = AssetHelper.load_font(Font.HERCULES.value, 17, "Habilidades:", text_color)
     screen.blit(skills_title, (box_x + 16, skill_y))
     for idx, skill in enumerate(self.skills):
-      skill_surf = AssetHelper.load_font(Font.HERCULES.value, 15, f"- {skill.name}", text_color)
-      screen.blit(skill_surf, (box_x + 32, skill_y + 22 + idx * 22))
+        skill_surf = AssetHelper.load_font(Font.HERCULES.value, 15, f"- {skill.name}", text_color)
+        screen.blit(skill_surf, (box_x + 32, skill_y + 22 + idx * 22))

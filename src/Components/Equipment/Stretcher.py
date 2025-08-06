@@ -63,10 +63,14 @@ class Stretcher(BaseEquipment):
   def draw_info_box(self, screen) -> None:
     doctor_box_height = 90 + 22 * len(getattr(self, 'skills', []))
     patient_box_height = 90 + 22 * len(getattr(self, 'required_skills', []))
+    margin_right = 20
+    margin_top = 60
+    margin_between = 24
+
     box_width = 250
     box_height = 100
-    box_x = 20
-    box_y = 20 + doctor_box_height + 24 + patient_box_height + 24
+    box_x = screen.get_width() - box_width - margin_right
+    box_y = margin_top + doctor_box_height + margin_between + patient_box_height + margin_between
 
     bg_color = (245, 245, 255)
     border_color = (200, 86, 75)
