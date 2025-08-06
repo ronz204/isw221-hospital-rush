@@ -56,8 +56,7 @@ class DoctorCharacter(BaseCharacter, Draggable):
 
   def draw(self, screen) -> None:
     if self.hovered:
-      fatigue_surf = AssetHelper.load_font(Font.KARMATIC.value, 18, f"Fatiga {self.fatigue}", (59,61,96))
-      screen.blit(fatigue_surf, (10, 35))
+      self.draw_info_box(screen)
 
     if self.in_recovery:
       remaining_time = max(0, (self.recovery_duration - (time.get_ticks() - self.recovery_start_time)) // 1000)
@@ -68,3 +67,32 @@ class DoctorCharacter(BaseCharacter, Draggable):
     self.fatigue += 1
     if self.fatigue == 2:
       self.start_recovery()
+  
+  def draw_info_box(self, screen) -> None:
+    box_width = 270
+    box_height = 90 + 22 * len(self.skills)
+    box_x = 20
+    box_y = 20
+
+    bg_color = (245, 245, 255)
+    border_color = (59, 61, 96)
+    text_color = (30, 30, 30)
+
+    import pygame
+    pygame.draw.rect(screen, bg_color, (box_x, box_y, box_width, box_height), border_radius=12)
+    pygame.draw.rect(screen, border_color, (box_x, box_y, box_width, box_height), 2, border_radius=12)
+
+    title = "Doctor"
+    title_surf = AssetHelper.load_font(Font.HERCULES.value, 22, title, border_color)
+    screen.blit(title_surf, (box_x + 16, box_y + 10))
+
+    fatigue_text = f"Fatiga: {self.fatigue}"
+    fatigue_surf = AssetHelper.load_font(Font.HERCULES.value, 17, fatigue_text, text_color)
+    screen.blit(fatigue_surf, (box_x + 16, box_y + 40))
+
+    skill_y = box_y + 68
+    skills_title = AssetHelper.load_font(Font.HERCULES.value, 17, "Habilidades:", text_color)
+    screen.blit(skills_title, (box_x + 16, skill_y))
+    for idx, skill in enumerate(self.skills):
+      skill_surf = AssetHelper.load_font(Font.HERCULES.value, 15, f"- {skill.name}", text_color)
+      screen.blit(skill_surf, (box_x + 32, skill_y + 22 + idx * 22))

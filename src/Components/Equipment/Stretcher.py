@@ -51,8 +51,7 @@ class Stretcher(BaseEquipment):
     self.interaction.draw_treatment_indicator(screen, self)
 
     if self.hovered:
-      severity_surf = AssetHelper.load_font(Font.KARMATIC.value, 18, f"Usos {self.uses}", (200,86,75))
-      screen.blit(severity_surf, (10, 10))
+      self.draw_info_box(screen)
 
     if self.needs_repair:
       repair_surf = AssetHelper.load_font(Font.KARMATIC.value, 12, "Reparar", (200,86,75))
@@ -60,3 +59,31 @@ class Stretcher(BaseEquipment):
 
     for zone in self.dropzones:
       zone.draw(screen)
+
+  def draw_info_box(self, screen) -> None:
+    doctor_box_height = 90 + 22 * len(getattr(self, 'skills', []))
+    patient_box_height = 90 + 22 * len(getattr(self, 'required_skills', []))
+    box_width = 250
+    box_height = 100
+    box_x = 20
+    box_y = 20 + doctor_box_height + 24 + patient_box_height + 24
+
+    bg_color = (245, 245, 255)
+    border_color = (200, 86, 75)
+    text_color = (30, 30, 30)
+
+    import pygame
+    pygame.draw.rect(screen, bg_color, (box_x, box_y, box_width, box_height), border_radius=12)
+    pygame.draw.rect(screen, border_color, (box_x, box_y, box_width, box_height), 2, border_radius=12)
+
+    title = "Camilla"
+    title_surf = AssetHelper.load_font(Font.HERCULES.value, 22, title, border_color)
+    screen.blit(title_surf, (box_x + 16, box_y + 10))
+
+    usos_text = f"Usos: {self.uses}/2"
+    usos_surf = AssetHelper.load_font(Font.HERCULES.value, 17, usos_text, text_color)
+    screen.blit(usos_surf, (box_x + 16, box_y + 40))
+
+    if self.needs_repair:
+      repair_surf = AssetHelper.load_font(Font.HERCULES.value, 16, "¡Necesita reparación!", border_color)
+      screen.blit(repair_surf, (box_x + 16, box_y + 66))
