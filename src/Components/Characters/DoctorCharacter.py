@@ -6,7 +6,7 @@ from src.Models.Size import Size
 from src.Models.Coord import Coord
 from src.Skills.SkillBase import Skill
 from src.Helpers.AssetHelper import AssetHelper
-from src.Constants.Assets import Character, Font
+from src.Constants.Assets import Character, Font, Icon
 from src.Components.DragDrop.Draggable import Draggable
 from src.Components.Characters.BaseCharacter import BaseCharacter
 
@@ -59,9 +59,8 @@ class DoctorCharacter(BaseCharacter, Draggable):
       self.draw_info_box(screen)
 
     if self.in_recovery:
-      remaining_time = max(0, (self.recovery_duration - (time.get_ticks() - self.recovery_start_time)) // 1000)
-      recovery_surf = AssetHelper.load_font(Font.KARMATIC.value, 12, f"Recuperación {remaining_time}s", (255, 0, 0))
-      screen.blit(recovery_surf, (self.coords.x - 50, self.coords.y - 20))
+      fatigue_icon = AssetHelper.load_image(Icon.FATIGUE.value, (28, 28))
+      screen.blit(fatigue_icon, (self.coords.x + self.size.width // 2 - 14, self.coords.y - 32))
 
   def increase_fatigue(self) -> None:
     self.fatigue += 1
