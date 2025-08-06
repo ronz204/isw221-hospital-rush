@@ -15,51 +15,97 @@ from src.Components.Characters.PatientCharacter import PatientCharacter
 
 class RoomScenario(BaseScenario):
   BACKGROUND = Scenario.ROOM
+  
+  SUCCESS_COLOR = (34, 139, 34)
+  FAILURE_COLOR = (220, 20, 60)
+  RESULT_BG_COLOR = (240, 248, 255)
+  TEXT_SHADOW_COLOR = (105, 105, 105)
+  RESULT_BORDER_COLOR = (70, 130, 180)
 
   def __init__(self):
     super().__init__()
+    self._initialize_game_objects()
+    self._initialize_game_state()
+    self._initialize_characters()
+
+  def _initialize_game_objects(self) -> None:
     self.triages = Group()
     self.stretchers = Group()
     self.characters = Group()
 
+  def _initialize_game_state(self) -> None:
     self.game_over = False
-    self.time_limit = 5000
-    self.result_surface = None
+    self.time_limit = 30000
     self.start_time = time.get_ticks()
+    self.result_surface = None
+    self.menu_button = None
 
+  def _initialize_characters(self) -> None:
     advanced_diagnosis = SkillManager.get_skill("Advanced Diagnosis")
     surgical_precision = SkillManager.get_skill("Surgical Precision")
 
+    # Doctores
     self.characters.add(
       DoctorCharacter(Coord(490, 160), Character.DOCTOR1, [advanced_diagnosis]),
-      DoctorCharacter(Coord(540, 180), Character.DOCTOR2, [surgical_precision]),
-
-      PatientCharacter(Coord(530, 330), Character.PATIENT1, [advanced_diagnosis]),
-      PatientCharacter(Coord(560, 380), Character.PATIENT2, [surgical_precision]),)
+      DoctorCharacter(Coord(540, 180), Character.DOCTOR2, [surgical_precision])
+    )
     
+    # Pacientes
+    self.characters.add(
+      PatientCharacter(Coord(530, 330), Character.PATIENT1, [advanced_diagnosis]),
+      PatientCharacter(Coord(560, 380), Character.PATIENT2, [surgical_precision])
+    )
+    
+    # Triage
     self.triages.add(
-      TriageCharacter(Coord(350, 400), Character.TRIAGE1))
+      TriageCharacter(Coord(350, 400), Character.TRIAGE1)
+    )
 
+    # Camillas
     self.stretchers.add(
       Stretcher(Coord(290, 190)),
-      Stretcher(Coord(110, 300)),)
+      Stretcher(Coord(110, 300))
+    )
 
   def listen(self, event) -> None:
-    if (event.type == pygame.MOUSEBUTTONDOWN):
-      if (event.button == 1):
+    if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+      if self.game_over and self.menu_button:
         self.menu_button.on_event(event)
 
-    for character in self.characters:
-      character.listen(event)
+    if not self.game_over:
+      for character in self.characters:
+        character.listen(event)
 
-    for triage in self.triages:
-      triage.listen(event, self.stretchers)
+      for triage in self.triages:
+        triage.listen(event, self.stretchers)
 
-    for stretcher in self.stretchers:
-      stretcher.listen(event, self.characters, list(self.characters.sprites()))
+      for stretcher in self.stretchers:
+        stretcher.listen(event, self.characters, list(self.characters.sprites()))
+
+  def update(self) -> None:
+    if not self.game_over:
+      self._check_game_conditions()
+
+  def _check_game_conditions(self) -> None:
+    elapsed_time = time.get_ticks() - self.start_time
+    if elapsed_time > self.time_limit:
+      self.end_game()
+      return
+    
+    patients_remaining = len([c for c in self.characters if isinstance(c, PatientCharacter)])
+    if patients_remaining == 0:
+      self.end_game()
 
   def draw(self, screen) -> None:
     super().draw(screen)
+    
+    if not self.game_over:
+      self._draw_game_elements(screen)
+      self.draw_timer(screen)
+    else:
+      self._draw_game_over_screen(screen)
+
+  def _draw_game_elements(self, screen) -> None:
     self.triages.draw(screen)
     self.stretchers.draw(screen)
     self.characters.draw(screen)
@@ -70,32 +116,107 @@ class RoomScenario(BaseScenario):
     for stretcher in self.stretchers:
       stretcher.draw(screen)
 
-    if not self.game_over:
-      self.draw_timer(screen)
-    else:
-      screen.blit(self.result_surface, (240, 140))
+  def _draw_game_over_screen(self, screen) -> None:
+    if self.result_surface:
+      surface_x = (screen.get_width() - self.result_surface.get_width()) // 2
+      surface_y = (screen.get_height() - self.result_surface.get_height()) // 2
+      screen.blit(self.result_surface, (surface_x, surface_y))
+    
+    if self.menu_button:
       self.menu_button.draw(screen)
 
   def end_game(self) -> None:
+    if self.game_over: return
+      
     self.game_over = True
     patients_remaining = len([c for c in self.characters if isinstance(c, PatientCharacter)])
-    result_text = "Ganaste" if patients_remaining == 0 else "Perdiste"
+    total_patients = 2
+    patients_treated = total_patients - patients_remaining
+    
+    HistoryManager.save_game(patients_treated=patients_treated, max_wave=1)    
+    self._create_result_surface(patients_remaining == 0, patients_treated, patients_remaining)
 
-    HistoryManager.save_game(patients_treated=len(self.characters) - patients_remaining, max_wave=1)
 
-    self.result_surface = Surface((400, 200))
-    self.result_surface.fill((0, 0, 0))
-    result_text_surface = AssetHelper.load_font(Font.KARMATIC.value, 36, result_text, (255, 255, 255))
-    self.result_surface.blit(result_text_surface, (200 - result_text_surface.get_width() // 2, 50))
+  def _create_result_surface(self, victory: bool, treated: int, remaining: int) -> None:
+    surface_width, surface_height = 500, 300
+    self.result_surface = Surface((surface_width, surface_height))
+    self.result_surface.fill(self.RESULT_BG_COLOR)
+    
+    pygame.draw.rect(self.result_surface, self.RESULT_BORDER_COLOR, 
+                    (0, 0, surface_width, surface_height), 8)
+    pygame.draw.rect(self.result_surface, (255, 255, 255), 
+                    (8, 8, surface_width-16, surface_height-16), 4)
 
-    self.menu_button = MenuButton(Coord(200 - 90, 120))
+    result_text = "¡MISION COMPLETADA!" if victory else "TIEMPO AGOTADO"
+    title_color = self.SUCCESS_COLOR if victory else self.FAILURE_COLOR
+    
+    title_shadow = AssetHelper.load_font(Font.KARMATIC.value, 32, result_text, self.TEXT_SHADOW_COLOR)
+    title_surface = AssetHelper.load_font(Font.KARMATIC.value, 32, result_text, title_color)
+    
+    title_x = (surface_width - title_surface.get_width()) // 2
+    self.result_surface.blit(title_shadow, (title_x + 2, 52))
+    self.result_surface.blit(title_surface, (title_x, 50))
+
+    stats_y = 110
+    stats_color = (60, 60, 60)
+    
+    treated_text = f"Pacientes tratados: {treated}"
+    treated_surface = AssetHelper.load_font(Font.KARMATIC.value, 20, treated_text, stats_color)
+    treated_x = (surface_width - treated_surface.get_width()) // 2
+    self.result_surface.blit(treated_surface, (treated_x, stats_y))
+    
+    if remaining > 0:
+      remaining_text = f"Pacientes restantes: {remaining}"
+      remaining_surface = AssetHelper.load_font(Font.KARMATIC.value, 20, remaining_text, stats_color)
+      remaining_x = (surface_width - remaining_surface.get_width()) // 2
+      self.result_surface.blit(remaining_surface, (remaining_x, stats_y + 35))
+
+    motivation_y = stats_y + (80 if remaining > 0 else 45)
+    if victory:
+      motivation_text = "¡Excelente trabajo, Doctor!"
+      motivation_color = self.SUCCESS_COLOR
+    else:
+      motivation_text = "¡Intentalo de nuevo!"
+      motivation_color = self.FAILURE_COLOR
+    
+    motivation_surface = AssetHelper.load_font(Font.KARMATIC.value, 18, motivation_text, motivation_color)
+    motivation_x = (surface_width - motivation_surface.get_width()) // 2
+    self.result_surface.blit(motivation_surface, (motivation_x, motivation_y))
+
+  def _create_menu_button(self, screen) -> None:
+    button_width = 180 
+    button_x = (screen.get_width() - button_width) // 2
+    button_y = 400
+    self.menu_button = MenuButton(Coord(button_x, button_y))
+
+  def _draw_game_over_screen(self, screen) -> None:
+    if self.result_surface:
+      surface_x = (screen.get_width() - self.result_surface.get_width()) // 2
+      surface_y = (screen.get_height() - self.result_surface.get_height()) // 2
+      screen.blit(self.result_surface, (surface_x, surface_y))
+
+      if not self.menu_button:
+        self._create_menu_button(screen)
+    if self.menu_button:
+      self.menu_button.draw(screen)
 
   def draw_timer(self, screen) -> None:
     elapsed_time = time.get_ticks() - self.start_time
     remaining_time = max(0, (self.time_limit - elapsed_time) // 1000)
-
-    timer_surface = AssetHelper.load_font(Font.KARMATIC.value, 22, f"Tiempo: {remaining_time}s", (255, 255, 255))
-    screen.blit(timer_surface, (480 - timer_surface.get_width() // 2, 20))
-
-    if remaining_time == 0:
+    
+    if remaining_time <= 0 and not self.game_over:
       self.end_game()
+      return
+
+    if remaining_time > 30:
+      timer_color = (255, 255, 255)
+    elif remaining_time > 10:
+      timer_color = (255, 255, 0)
+    else:
+      timer_color = (255, 0, 0)
+    
+    timer_text = f"Tiempo: {remaining_time}s"
+    timer_surface = AssetHelper.load_font(Font.KARMATIC.value, 22, timer_text, timer_color)
+    
+    timer_x = screen.get_width() - timer_surface.get_width() - 20
+    screen.blit(timer_surface, (timer_x, 20))
