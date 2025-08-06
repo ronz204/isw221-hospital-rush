@@ -1,37 +1,37 @@
 from enum import Enum
 
 class Icon(Enum):
-  GAME = "Icons/HospitalRushIcon.png"
+  GAME = "Images/Indicators/HospitalRushIcon.png"
 
 class Scenario(Enum):
-  HOME = "Scenarios/HomeScenario.png"
-  ROOM = "Scenarios/RoomScenario.png"
-  MENU = "Scenarios/MenuScenario.png"
-  HISTORY = "Scenarios/HistoryScenario.png"
+  HOME = "Images/Scenarios/HomeScenario.png"
+  ROOM = "Images/Scenarios/RoomScenario.png"
+  MENU = "Images/Scenarios/MenuScenario.png"
+  HISTORY = "Images/Scenarios/HistoryScenario.png"
 
 class Button(Enum):
-  EXIT = "Buttons/ExitButton.png"
-  BACK = "Buttons/BackButton.png"
-  START = "Buttons/StartButton.png"
-  HISTORY = "Buttons/HistoryButton.png"
+  EXIT = "Images/Buttons/ExitButton.png"
+  BACK = "Images/Buttons/BackButton.png"
+  START = "Images/Buttons/StartButton.png"
+  HISTORY = "Images/Buttons/HistoryButton.png"
 
 class Equipment(Enum):
-  STRETCHER = "Sprites/Equipment/Stretcher.png"
+  STRETCHER = "Images/Sprites/Equipment/Stretcher.png"
 
 class Character(Enum):
-  DOCTOR1 = "Sprites/Doctors/Doctor1.png"
-  DOCTOR2 = "Sprites/Doctors/Doctor2.png"
-  DOCTOR3 = "Sprites/Doctors/Doctor3.png"
-  DOCTOR4 = "Sprites/Doctors/Doctor4.png"
+  DOCTOR1 = "Images/Sprites/Doctors/Doctor1.png"
+  DOCTOR2 = "Images/Sprites/Doctors/Doctor2.png"
+  DOCTOR3 = "Images/Sprites/Doctors/Doctor3.png"
+  DOCTOR4 = "Images/Sprites/Doctors/Doctor4.png"
 
-  PATIENT1 = "Sprites/Patients/Patient1.png"
-  PATIENT2 = "Sprites/Patients/Patient2.png"
-  PATIENT3 = "Sprites/Patients/Patient3.png"
-  PATIENT4 = "Sprites/Patients/Patient4.png"
+  PATIENT1 = "Images/Sprites/Patients/Patient1.png"
+  PATIENT2 = "Images/Sprites/Patients/Patient2.png"
+  PATIENT3 = "Images/Sprites/Patients/Patient3.png"
+  PATIENT4 = "Images/Sprites/Patients/Patient4.png"
 
-  TRIAGE1 = "Sprites/Triages/Triage1.png"
-  TRIAGE2 = "Sprites/Triages/Triage2.png"
-  TRIAGE3 = "Sprites/Triages/Triage3.png"
+  TRIAGE1 = "Images/Sprites/Triages/Triage1.png"
+  TRIAGE2 = "Images/Sprites/Triages/Triage2.png"
+  TRIAGE3 = "Images/Sprites/Triages/Triage3.png"
 
 class Font(Enum):
   KARMATIC = "Fonts/KarmaticArcade.ttf"
