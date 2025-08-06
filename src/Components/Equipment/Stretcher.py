@@ -17,6 +17,7 @@ class Stretcher(BaseEquipment):
 
     self.uses: int = 0
     self.hovered: bool = False
+    self.needs_repair: bool = False
     self.image = AssetHelper.load_image(Equipment.STRETCHER.value, self.size.as_tuple())
   
     doctor_dropzone_coords = Coord(self.rect.x + 1, self.rect.y + (self.rect.height - 38) // 2)
@@ -28,9 +29,14 @@ class Stretcher(BaseEquipment):
     self.dropzones = [self.doctor_zone, self.patient_zone]
     self.interaction = Interaction(self.doctor_zone, self.patient_zone)
 
+  def reset_uses(self) -> None:
+    self.uses = 0
+    self.needs_repair = False
+
   def listen(self, event, characters, draggables: List[Draggable]) -> None:
     mouse_pos = mouse.get_pos()
     self.hovered = self.rect.collidepoint(mouse_pos)
+    if self.needs_repair: return
 
     for zone in self.dropzones:
       zone.listen(event, draggables)
@@ -39,12 +45,18 @@ class Stretcher(BaseEquipment):
     self.interaction.validate_interaction()
     self.interaction.update_treatment(self, characters)
 
+    if self.uses >= 2: self.needs_repair = True
+
   def draw(self, screen) -> None:
     self.interaction.draw_treatment_indicator(screen, self)
 
     if self.hovered:
       severity_surf = AssetHelper.load_font(Font.KARMATIC.value, 18, f"Usos {self.uses}", (200,86,75))
       screen.blit(severity_surf, (10, 10))
+
+    if self.needs_repair:
+      repair_surf = AssetHelper.load_font(Font.KARMATIC.value, 12, "Reparar", (200,86,75))
+      screen.blit(repair_surf, (self.coords.x + 20, self.coords.y - 10))
 
     for zone in self.dropzones:
       zone.draw(screen)

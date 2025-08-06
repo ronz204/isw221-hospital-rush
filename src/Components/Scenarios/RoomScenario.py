@@ -13,6 +13,7 @@ class RoomScenario(BaseScenario):
 
   def __init__(self):
     super().__init__()
+    self.triages = Group()
     self.stretchers = Group()
     self.characters = Group()
 
@@ -24,9 +25,10 @@ class RoomScenario(BaseScenario):
       DoctorCharacter(Coord(540, 180), Character.DOCTOR2, [surgical_precision]),
 
       PatientCharacter(Coord(530, 330), Character.PATIENT1, [advanced_diagnosis]),
-      PatientCharacter(Coord(560, 380), Character.PATIENT2, [surgical_precision]),
-
-      TriageCharacter(Coord(350, 400), Character.TRIAGE1),)
+      PatientCharacter(Coord(560, 380), Character.PATIENT2, [surgical_precision]),)
+    
+    self.triages.add(
+      TriageCharacter(Coord(350, 400), Character.TRIAGE1))
 
     self.stretchers.add(
       Stretcher(Coord(290, 190)),
@@ -36,11 +38,15 @@ class RoomScenario(BaseScenario):
     for character in self.characters:
       character.listen(event)
 
+    for triage in self.triages:
+      triage.listen(event, self.stretchers)
+
     for stretcher in self.stretchers:
       stretcher.listen(event, self.characters, list(self.characters.sprites()))
 
   def draw(self, screen) -> None:
     super().draw(screen)
+    self.triages.draw(screen)
     self.stretchers.draw(screen)
     self.characters.draw(screen)
 
