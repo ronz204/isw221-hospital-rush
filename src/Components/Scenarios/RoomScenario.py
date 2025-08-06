@@ -13,6 +13,7 @@ from src.Components.Characters.DoctorCharacter import DoctorCharacter
 from src.Components.Characters.TriageCharacter import TriageCharacter
 from src.Components.Characters.PatientCharacter import PatientCharacter
 from src.Components.Scenarios.ResultSurfaceBuilder import ResultSurfaceBuilder
+from src.Skills.Triages.RepairStretcher import RepairStretcher
 
 class RoomScenario(BaseScenario):
   BACKGROUND = Scenario.ROOM
@@ -44,6 +45,7 @@ class RoomScenario(BaseScenario):
   def _initialize_characters(self) -> None:
     advanced_diagnosis = SkillManager.get_skill("Advanced Diagnosis")
     surgical_precision = SkillManager.get_skill("Surgical Precision")
+    repair_stretcher = SkillManager.get_skill("Repair Stretcher")  # <-- Cambiado aquí
 
     # Doctores
     self.characters.add(
@@ -59,7 +61,7 @@ class RoomScenario(BaseScenario):
     
     # Triage
     self.triages.add(
-      TriageCharacter(Coord(350, 400), Character.TRIAGE1)
+      TriageCharacter(Coord(350, 400), Character.TRIAGE1, skills=[repair_stretcher])
     )
 
     # Camillas
