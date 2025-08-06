@@ -12,6 +12,7 @@ class Scenario(Enum):
 class Button(Enum):
   EXIT = "Images/Buttons/ExitButton.png"
   BACK = "Images/Buttons/BackButton.png"
+  MENU = "Images/Buttons/MenuButton.png"
   START = "Images/Buttons/StartButton.png"
   HISTORY = "Images/Buttons/HistoryButton.png"
 
