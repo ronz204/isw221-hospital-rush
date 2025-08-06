@@ -220,3 +220,8 @@ class RoomScenario(BaseScenario):
     
     timer_x = screen.get_width() - timer_surface.get_width() - 20
     screen.blit(timer_surface, (timer_x, 20))
+
+  def reset(self) -> None:
+    self._initialize_game_objects()
+    self._initialize_game_state()
+    self._initialize_characters()

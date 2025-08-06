@@ -10,6 +10,8 @@ class SceneManager:
   @staticmethod
   def switch(scenario: str):
     SceneManager.CURRENT = SceneManager.SCENARIOS[scenario]
+    if hasattr(SceneManager.CURRENT, "reset"):
+      SceneManager.CURRENT.reset()
 
   @staticmethod
   def listen(event: Event):
