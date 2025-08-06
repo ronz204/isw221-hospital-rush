@@ -3,8 +3,8 @@ from pygame import mouse
 from src.Models.Size import Size
 from src.Models.Coord import Coord
 from src.Helpers.AssetHelper import AssetHelper
-from src.Constants.Assets import Equipment, Font
 from src.Components.DragDrop.DropZone import DropZone
+from src.Constants.Assets import Equipment, Font, Icon
 from src.Components.DragDrop.Draggable import Draggable
 from src.Components.DragDrop.Interaction import Interaction
 from src.Components.Equipment.BaseEquipment import BaseEquipment
@@ -54,8 +54,8 @@ class Stretcher(BaseEquipment):
       self.draw_info_box(screen)
 
     if self.needs_repair:
-      repair_surf = AssetHelper.load_font(Font.KARMATIC.value, 12, "Reparar", (200,86,75))
-      screen.blit(repair_surf, (self.coords.x + 20, self.coords.y - 10))
+      repair_icon = AssetHelper.load_image(Icon.REPAIR.value, (50, 50))
+      screen.blit(repair_icon, (self.coords.x + self.size.width // 2 - 25, self.coords.y - 36))
 
     for zone in self.dropzones:
       zone.draw(screen)
