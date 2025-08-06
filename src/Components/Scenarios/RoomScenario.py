@@ -36,7 +36,7 @@ class RoomScenario(BaseScenario):
 
   def _initialize_game_state(self) -> None:
     self.game_over = False
-    self.time_limit = 5000
+    self.time_limit = 60000
     self.start_time = time.get_ticks()
     self.result_surface = None
     self.menu_button = None
@@ -184,7 +184,7 @@ class RoomScenario(BaseScenario):
       timer_color = (255, 0, 0)
     
     timer_text = f"Tiempo: {remaining_time}s"
-    timer_surface = AssetHelper.load_font(Font.KARMATIC.value, 22, timer_text, timer_color)
+    timer_surface = AssetHelper.load_font(Font.HERCULES.value, 22, timer_text, timer_color)
     
     timer_x = screen.get_width() - timer_surface.get_width() - 20
     screen.blit(timer_surface, (timer_x, 20))
