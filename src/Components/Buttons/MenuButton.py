@@ -10,3 +10,6 @@ class MenuButton(BaseButton):
 
   def on_click(self) -> None:
     SceneManager.switch("menu")
+
+  def draw(self, screen) -> None:
+    screen.blit(self.image, self.coords.as_tuple())
