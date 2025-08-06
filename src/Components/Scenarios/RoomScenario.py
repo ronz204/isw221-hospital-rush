@@ -12,6 +12,7 @@ from src.Components.Scenarios.BaseScenario import BaseScenario
 from src.Components.Characters.DoctorCharacter import DoctorCharacter
 from src.Components.Characters.TriageCharacter import TriageCharacter
 from src.Components.Characters.PatientCharacter import PatientCharacter
+from src.Components.Scenarios.ResultSurfaceBuilder import ResultSurfaceBuilder
 
 class RoomScenario(BaseScenario):
   BACKGROUND = Scenario.ROOM
@@ -35,7 +36,7 @@ class RoomScenario(BaseScenario):
 
   def _initialize_game_state(self) -> None:
     self.game_over = False
-    self.time_limit = 30000
+    self.time_limit = 5000
     self.start_time = time.get_ticks()
     self.result_surface = None
     self.menu_button = None
@@ -138,50 +139,17 @@ class RoomScenario(BaseScenario):
 
 
   def _create_result_surface(self, victory: bool, treated: int, remaining: int) -> None:
-    surface_width, surface_height = 500, 300
-    self.result_surface = Surface((surface_width, surface_height))
-    self.result_surface.fill(self.RESULT_BG_COLOR)
-    
-    pygame.draw.rect(self.result_surface, self.RESULT_BORDER_COLOR, 
-                    (0, 0, surface_width, surface_height), 8)
-    pygame.draw.rect(self.result_surface, (255, 255, 255), 
-                    (8, 8, surface_width-16, surface_height-16), 4)
-
-    result_text = "¡MISION COMPLETADA!" if victory else "TIEMPO AGOTADO"
-    title_color = self.SUCCESS_COLOR if victory else self.FAILURE_COLOR
-    
-    title_shadow = AssetHelper.load_font(Font.KARMATIC.value, 32, result_text, self.TEXT_SHADOW_COLOR)
-    title_surface = AssetHelper.load_font(Font.KARMATIC.value, 32, result_text, title_color)
-    
-    title_x = (surface_width - title_surface.get_width()) // 2
-    self.result_surface.blit(title_shadow, (title_x + 2, 52))
-    self.result_surface.blit(title_surface, (title_x, 50))
-
-    stats_y = 110
-    stats_color = (60, 60, 60)
-    
-    treated_text = f"Pacientes tratados: {treated}"
-    treated_surface = AssetHelper.load_font(Font.KARMATIC.value, 20, treated_text, stats_color)
-    treated_x = (surface_width - treated_surface.get_width()) // 2
-    self.result_surface.blit(treated_surface, (treated_x, stats_y))
-    
-    if remaining > 0:
-      remaining_text = f"Pacientes restantes: {remaining}"
-      remaining_surface = AssetHelper.load_font(Font.KARMATIC.value, 20, remaining_text, stats_color)
-      remaining_x = (surface_width - remaining_surface.get_width()) // 2
-      self.result_surface.blit(remaining_surface, (remaining_x, stats_y + 35))
-
-    motivation_y = stats_y + (80 if remaining > 0 else 45)
-    if victory:
-      motivation_text = "¡Excelente trabajo, Doctor!"
-      motivation_color = self.SUCCESS_COLOR
-    else:
-      motivation_text = "¡Intentalo de nuevo!"
-      motivation_color = self.FAILURE_COLOR
-    
-    motivation_surface = AssetHelper.load_font(Font.KARMATIC.value, 18, motivation_text, motivation_color)
-    motivation_x = (surface_width - motivation_surface.get_width()) // 2
-    self.result_surface.blit(motivation_surface, (motivation_x, motivation_y))
+    self.result_surface = ResultSurfaceBuilder.build(
+      width=500,
+      height=300,
+      victory=victory,
+      treated=treated,
+      remaining=remaining,
+      success_color=self.SUCCESS_COLOR,
+      failure_color=self.FAILURE_COLOR,
+      bg_color=self.RESULT_BG_COLOR,
+      border_color=self.RESULT_BORDER_COLOR,
+      text_shadow_color=self.TEXT_SHADOW_COLOR)
 
   def _create_menu_button(self, screen) -> None:
     button_width = 180 
