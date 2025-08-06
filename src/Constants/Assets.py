@@ -3,7 +3,6 @@ from enum import Enum
 class Icon(Enum):
   GAME = "Images/Indicators/HospitalRushIcon.png"
   FATIGUE = "Images/Indicators/FatigueIcon.png"
-  HEALTH = "Images/Indicators/HealthIcon.png"
   REPAIR = "Images/Indicators/RepairIcon.png"
 
 class Scenario(Enum):
