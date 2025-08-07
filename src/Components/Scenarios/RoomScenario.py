@@ -43,20 +43,24 @@ class RoomScenario(BaseScenario):
     self.menu_button = None
 
   def _initialize_characters(self) -> None:
+    emotional_support = SkillManager.get_skill("Emotional Support")
     advanced_diagnosis = SkillManager.get_skill("Advanced Diagnosis")
     surgical_precision = SkillManager.get_skill("Surgical Precision")
-    repair_stretcher = SkillManager.get_skill("Repair Stretcher")  # <-- Cambiado aquí
+    repair_stretcher = SkillManager.get_skill("Repair Stretcher")
 
     # Doctores
     self.characters.add(
-      DoctorCharacter(Coord(490, 160), Character.DOCTOR1, [advanced_diagnosis]),
+      DoctorCharacter(Coord(490, 160), Character.DOCTOR1, [advanced_diagnosis, emotional_support]),
       DoctorCharacter(Coord(540, 180), Character.DOCTOR2, [surgical_precision])
     )
     
     # Pacientes
     self.characters.add(
+      PatientCharacter(Coord(620, 400), Character.PATIENT4, [emotional_support]),
       PatientCharacter(Coord(530, 330), Character.PATIENT1, [advanced_diagnosis]),
-      PatientCharacter(Coord(560, 380), Character.PATIENT2, [surgical_precision])
+      PatientCharacter(Coord(560, 380), Character.PATIENT2, [surgical_precision]),
+      PatientCharacter(Coord(600, 350), Character.PATIENT3, [surgical_precision, emotional_support]),
+      PatientCharacter(Coord(480, 420), Character.PATIENT2, [advanced_diagnosis, emotional_support]),
     )
     
     # Triage

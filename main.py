@@ -24,7 +24,7 @@ SceneManager.SCENARIOS = {
   "menu": MenuScenario(),
   "room": RoomScenario(),
   "history": HistoryScenario()}
-SceneManager.switch("room")
+SceneManager.switch("home")
 
 while True:
   for event in pygame.event.get():
