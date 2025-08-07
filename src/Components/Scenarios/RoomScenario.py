@@ -51,7 +51,7 @@ class RoomScenario(BaseScenario):
     # Doctores
     self.characters.add(
       DoctorCharacter(Coord(490, 160), Character.DOCTOR1, [advanced_diagnosis, emotional_support]),
-      DoctorCharacter(Coord(540, 180), Character.DOCTOR2, [surgical_precision])
+      DoctorCharacter(Coord(540, 180), Character.DOCTOR2, [surgical_precision, emotional_support])
     )
     
     # Pacientes
